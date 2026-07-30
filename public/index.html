@@ -5,45 +5,348 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>매일 한 장의 말씀</title>
 <meta name="description" content="창세기 1장부터 요한계시록 22장까지, 성경 1,189장을 하루 한 장씩 낭독해 올리는 유튜브 채널입니다.">
+<meta property="og:title" content="매일 한 장의 말씀">
+<meta property="og:description" content="성경 1,189장, 하루 한 장. 1,189일의 낭독 여정.">
 <style>
-  :root { --bg:#07070b; --fg:#f2efe9; --dim:#b8b2a6; --gold:#e3c47f; }
+  :root {
+    --bg:#05050a; --fg:#f2efe9; --dim:#a8a294; --gold:#e3c47f; --gold-soft:#c9a55e;
+    --line:rgba(227,196,127,.18);
+  }
   * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
   body {
-    background:var(--bg); color:var(--fg);
-    font-family:"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
-    min-height:100vh; display:flex; flex-direction:column;
+    background:var(--bg); color:var(--fg); overflow-x:hidden;
+    font-family:"Apple SD Gothic Neo","Noto Sans KR","Pretendard",sans-serif;
+    background-image:radial-gradient(ellipse 80% 55% at 50% 8%, #14122a 0%, var(--bg) 65%);
+  }
+  #scene {
+    position:fixed; inset:0; z-index:0; display:block;
+    pointer-events:none;
+  }
+  .grain {
+    position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.5;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  main { position:relative; z-index:2; }
+
+  /* ── 히어로 ─────────────────────────── */
+  .hero {
+    min-height:100svh; display:flex; flex-direction:column;
     align-items:center; justify-content:center; text-align:center;
-    padding:48px 24px;
-    background-image:radial-gradient(ellipse at 50% -20%, #1c1a2e 0%, var(--bg) 60%);
+    padding:96px 24px 72px; word-break:keep-all;
   }
-  .verse { color:var(--dim); font-size:15px; letter-spacing:.12em; margin-bottom:28px; }
-  h1 { font-size:clamp(34px,7vw,58px); font-weight:800; letter-spacing:.04em; }
-  h1 .gold { color:var(--gold); }
-  .desc { color:var(--dim); font-size:17px; line-height:1.8; margin:26px 0 40px; word-break:keep-all; }
+  .verse-line {
+    color:var(--dim); font-size:clamp(13px,1.6vw,16px); letter-spacing:.22em;
+    display:flex; align-items:center; gap:18px; margin-bottom:34px;
+  }
+  .verse-line::before, .verse-line::after {
+    content:""; width:44px; height:1px;
+    background:linear-gradient(90deg, transparent, var(--gold-soft));
+  }
+  .verse-line::after { background:linear-gradient(90deg, var(--gold-soft), transparent); }
+  h1 {
+    font-size:clamp(44px,9.5vw,96px); font-weight:800; line-height:1.16;
+    letter-spacing:.03em;
+  }
+  h1 .gold {
+    background:linear-gradient(175deg,#f6e3b0 20%, var(--gold) 55%, #9d7a35 95%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .tagline {
+    color:var(--dim); font-size:clamp(16px,2.2vw,20px); line-height:1.9;
+    margin:30px 0 46px;
+  }
   .cta {
-    display:inline-block; background:var(--gold); color:#171207;
-    font-weight:700; font-size:17px; text-decoration:none;
-    padding:14px 34px; border-radius:999px;
+    display:inline-flex; align-items:center; gap:10px;
+    background:linear-gradient(180deg,#f0d79a,var(--gold) 60%,#caa254);
+    color:#171207; font-weight:800; font-size:17px; text-decoration:none;
+    padding:16px 38px; border-radius:999px;
+    box-shadow:0 0 0 1px rgba(227,196,127,.35), 0 10px 40px rgba(227,196,127,.22);
+    transition:transform .25s ease, box-shadow .25s ease;
   }
-  .cta:hover { filter:brightness(1.08); }
-  .handle { color:var(--dim); font-size:14px; margin-top:14px; }
-  footer { margin-top:72px; font-size:13px; color:#6f6a60; }
-  footer a { color:#9a937f; text-decoration:none; margin:0 10px; }
-  footer a:hover { text-decoration:underline; }
+  .cta:hover { transform:translateY(-2px); box-shadow:0 0 0 1px rgba(227,196,127,.5), 0 16px 52px rgba(227,196,127,.32); }
+  .cta svg { width:20px; height:20px; }
+  .handle { color:var(--dim); font-size:14px; letter-spacing:.14em; margin-top:16px; }
+  .scroll-hint {
+    position:absolute; bottom:26px; left:50%; transform:translateX(-50%);
+    color:#6f6a60; font-size:12px; letter-spacing:.3em;
+  }
+  .scroll-hint::after {
+    content:""; display:block; width:1px; height:34px; margin:10px auto 0;
+    background:linear-gradient(180deg, var(--gold-soft), transparent);
+    animation:drip 2.2s ease-in-out infinite;
+  }
+  @keyframes drip { 0%{transform:scaleY(0); transform-origin:top} 45%{transform:scaleY(1); transform-origin:top}
+                    55%{transform:scaleY(1); transform-origin:bottom} 100%{transform:scaleY(0); transform-origin:bottom} }
+  .hero { position:relative; }
+
+  /* ── 여정 ─────────────────────────── */
+  section { max-width:1040px; margin:0 auto; padding:110px 24px; word-break:keep-all; }
+  .kicker { color:var(--gold); font-size:14px; letter-spacing:.3em; margin-bottom:14px; }
+  h2 { font-size:clamp(26px,4.5vw,40px); font-weight:800; line-height:1.4; }
+  .sub { color:var(--dim); font-size:16px; line-height:1.9; margin-top:16px; max-width:560px; }
+  .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:56px; }
+  .card {
+    border:1px solid var(--line); border-radius:20px; padding:34px 26px;
+    background:linear-gradient(180deg, rgba(227,196,127,.05), rgba(227,196,127,.012) 60%);
+    backdrop-filter:blur(6px);
+  }
+  .card .num {
+    font-size:clamp(38px,5.5vw,56px); font-weight:800; color:var(--gold);
+    font-variant-numeric:tabular-nums; line-height:1.1;
+  }
+  .card .num small { font-size:.45em; font-weight:700; margin-left:2px; }
+  .card .label { margin-top:10px; font-weight:700; font-size:17px; }
+  .card .note { margin-top:6px; color:var(--dim); font-size:14px; line-height:1.7; }
+
+  /* ── 인용 ─────────────────────────── */
+  .quote { text-align:center; }
+  blockquote {
+    font-size:clamp(22px,3.6vw,34px); font-weight:700; line-height:1.75;
+  }
+  blockquote .gold { color:var(--gold); }
+  .quote cite { display:block; margin-top:20px; color:var(--dim); font-style:normal; letter-spacing:.18em; font-size:14px; }
+  .quote .cta { margin-top:46px; }
+
+  footer {
+    position:relative; z-index:2; border-top:1px solid rgba(255,255,255,.06);
+    padding:36px 24px 44px; text-align:center; font-size:13px; color:#6f6a60;
+  }
+  footer a { color:#9a937f; text-decoration:none; margin:0 12px; }
+  footer a:hover { color:var(--gold); }
+  footer .copy { margin-top:12px; }
+
+  .reveal { opacity:0; }
+  @media (max-width:720px) { .cards { grid-template-columns:1fr; } section { padding:80px 20px; } }
+  @media (prefers-reduced-motion:reduce) {
+    .reveal { opacity:1 !important; transform:none !important; }
+    .scroll-hint::after { animation:none; }
+  }
 </style>
 </head>
 <body>
-  <div class="verse">태초에 하나님이 천지를 창조하시니라 — 창세기 1:1</div>
-  <h1>매일 <span class="gold">한 장</span>의 말씀</h1>
-  <p class="desc">
-    창세기 1장부터 요한계시록 22장까지,<br>
-    성경 1,189장을 하루 한 장씩 낭독해 올립니다.<br>
-    1,189일의 여정을 함께해 주세요.
-  </p>
-  <a class="cta" href="https://www.youtube.com/@1189jang">유튜브에서 듣기</a>
-  <div class="handle">@1189jang</div>
-  <footer>
-    <a href="/privacy.html">개인정보처리방침</a>·<a href="/terms.html">이용약관</a>
-  </footer>
+<canvas id="scene" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+
+<main>
+  <div class="hero">
+    <div class="verse-line reveal" data-hero>빛이 있으라 — 창세기 1:3</div>
+    <h1>
+      <span class="reveal" data-hero style="display:block">매일 <span class="gold">한 장</span>의</span>
+      <span class="reveal" data-hero style="display:block">말씀</span>
+    </h1>
+    <p class="tagline reveal" data-hero>
+      창세기 1장부터 요한계시록 22장까지,<br>
+      성경 1,189장을 하루 한 장씩 낭독합니다.
+    </p>
+    <a class="cta reveal" data-hero href="https://www.youtube.com/@1189jang">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4L15.8 12l-6.2 3.6z"/></svg>
+      유튜브에서 듣기
+    </a>
+    <div class="handle reveal" data-hero>@1189jang</div>
+    <div class="scroll-hint">SCROLL</div>
+  </div>
+
+  <section>
+    <div class="kicker reveal" data-view>THE JOURNEY</div>
+    <h2 class="reveal" data-view>태초부터 마지막 아멘까지,<br>하루 한 장의 여정</h2>
+    <p class="sub reveal" data-view>
+      거르지 않고, 서두르지 않고. 매일 새벽 한 장씩 낭독해
+      성경 전체를 통독하는 여정을 함께합니다.
+    </p>
+    <div class="cards">
+      <div class="card reveal" data-view>
+        <div class="num"><span data-count="1189">0</span><small>장</small></div>
+        <div class="label">성경 전체</div>
+        <div class="note">창세기 1장에서 요한계시록 22장까지, 한 장도 빠짐없이.</div>
+      </div>
+      <div class="card reveal" data-view>
+        <div class="num">1<small>장</small></div>
+        <div class="label">하루 한 장</div>
+        <div class="note">매일 새벽, 새 낭독이 올라옵니다. 오늘의 한 장이면 충분합니다.</div>
+      </div>
+      <div class="card reveal" data-view>
+        <div class="num"><span data-count="1189">0</span><small>일</small></div>
+        <div class="label">약 3년 3개월</div>
+        <div class="note">긴 여정이지만, 시작은 언제나 오늘 한 장입니다.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="quote">
+    <blockquote class="reveal" data-view>
+      "주의 말씀은 내 발에 <span class="gold">등</span>이요<br>
+      내 길에 <span class="gold">빛</span>이니이다"
+    </blockquote>
+    <cite class="reveal" data-view>시편 119:105</cite>
+    <div class="reveal" data-view>
+      <a class="cta" href="https://www.youtube.com/@1189jang">오늘의 한 장 듣기</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <nav>
+    <a href="/privacy.html">개인정보처리방침</a>·<a href="/terms.html">이용약관</a>·<a href="https://www.youtube.com/@1189jang">YouTube</a>
+  </nav>
+  <div class="copy">© 2026 매일 한 장의 말씀 (@1189jang)</div>
+</footer>
+
+<script src="./vendor/motion.js"></script>
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
+<script type="module">
+import * as THREE from "three";
+
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const { animate, inView, stagger } = window.Motion;
+
+/* ── DOM 애니메이션 (Motion) ─────────────────────── */
+animate("[data-hero]",
+  { opacity: [0, 1], transform: ["translateY(28px)", "translateY(0)"] },
+  { duration: reduced ? 0 : 1.1, delay: reduced ? 0 : stagger(0.14, { startDelay: 0.3 }),
+    ease: [0.16, 1, 0.3, 1] });
+
+inView("[data-view]", (el) => {
+  animate(el,
+    { opacity: [0, 1], transform: ["translateY(34px)", "translateY(0)"] },
+    { duration: reduced ? 0 : 0.9, ease: [0.16, 1, 0.3, 1] });
+}, { margin: "3000px 0px -12% 0px" });
+
+// 1189 카운트업 — 카드가 보일 때 시작
+inView("[data-count]", (el) => {
+  const target = +el.dataset.count;
+  animate(0, target, {
+    duration: reduced ? 0 : 2.2, ease: [0.22, 1, 0.36, 1],
+    onUpdate: (v) => { el.textContent = Math.round(v).toLocaleString("ko-KR"); },
+  });
+}, { margin: "3000px 0px -10% 0px" });
+
+/* ── 3D 씬 (Three.js): 어둠 속에서 빛 ─────────────── */
+const canvas = document.getElementById("scene");
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+} catch (e) { canvas.remove(); }
+
+if (renderer) {
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x05050a, 0.055);
+  const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 100);
+  camera.position.set(0, 0.6, 9);
+
+  const isMobile = matchMedia("(max-width: 720px)").matches;
+
+  // 빛의 중심 — 캔버스로 만든 발광 스프라이트
+  const glowTex = (() => {
+    const c = document.createElement("canvas"); c.width = c.height = 256;
+    const g = c.getContext("2d");
+    const grad = g.createRadialGradient(128, 128, 0, 128, 128, 128);
+    grad.addColorStop(0, "rgba(255,241,205,1)");
+    grad.addColorStop(0.18, "rgba(243,214,143,.85)");
+    grad.addColorStop(0.45, "rgba(197,152,77,.25)");
+    grad.addColorStop(1, "rgba(197,152,77,0)");
+    g.fillStyle = grad; g.fillRect(0, 0, 256, 256);
+    return new THREE.CanvasTexture(c);
+  })();
+  const glow = new THREE.Sprite(new THREE.SpriteMaterial({
+    map: glowTex, transparent: true, depthWrite: false,
+    blending: THREE.AdditiveBlending, opacity: 0.9,
+  }));
+  glow.scale.setScalar(7);
+  glow.position.set(0, 0.9, -4);
+  scene.add(glow);
+
+  // 원형 점 텍스처 (별·성운 입자 공용)
+  const dotTex = (() => {
+    const c = document.createElement("canvas"); c.width = c.height = 64;
+    const g = c.getContext("2d");
+    const grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+    grad.addColorStop(0, "rgba(255,255,255,1)");
+    grad.addColorStop(0.4, "rgba(255,255,255,.6)");
+    grad.addColorStop(1, "rgba(255,255,255,0)");
+    g.fillStyle = grad; g.fillRect(0, 0, 64, 64);
+    return new THREE.CanvasTexture(c);
+  })();
+
+  // 성운 소용돌이 — 금빛 중심에서 보랏빛 가장자리로
+  const N = isMobile ? 4500 : 11000;
+  const pos = new Float32Array(N * 3);
+  const col = new Float32Array(N * 3);
+  const inner = new THREE.Color(0xf3d68f), mid = new THREE.Color(0x8f6ab8),
+        outer = new THREE.Color(0x2c3f8f);
+  for (let i = 0; i < N; i++) {
+    const arm = i % 3, t = Math.pow(Math.random(), 0.65);
+    const r = 0.7 + t * 9.5;
+    const a = t * 4.6 + arm * (Math.PI * 2 / 3) + (Math.random() - 0.5) * 0.55;
+    pos[i*3]   = Math.cos(a) * r;
+    pos[i*3+1] = (Math.random() - 0.5) * (0.34 + t * 1.5) + 0.9 - t * 0.5;
+    pos[i*3+2] = Math.sin(a) * r - 4;
+    const c = t < 0.35 ? inner.clone().lerp(mid, t / 0.35)
+                       : mid.clone().lerp(outer, (t - 0.35) / 0.65);
+    const f = 0.55 + Math.random() * 0.45;
+    col[i*3] = c.r * f; col[i*3+1] = c.g * f; col[i*3+2] = c.b * f;
+  }
+  const nebGeo = new THREE.BufferGeometry();
+  nebGeo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+  nebGeo.setAttribute("color", new THREE.BufferAttribute(col, 3));
+  const nebula = new THREE.Points(nebGeo, new THREE.PointsMaterial({
+    size: 0.075, map: dotTex, vertexColors: true, transparent: true,
+    depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.9,
+    sizeAttenuation: true,
+  }));
+  scene.add(nebula);
+
+  // 먼 별들
+  const SN = isMobile ? 700 : 1600;
+  const sp = new Float32Array(SN * 3);
+  for (let i = 0; i < SN; i++) {
+    const v = new THREE.Vector3().randomDirection().multiplyScalar(26 + Math.random() * 30);
+    sp[i*3] = v.x; sp[i*3+1] = v.y; sp[i*3+2] = v.z - 6;
+  }
+  const starGeo = new THREE.BufferGeometry();
+  starGeo.setAttribute("position", new THREE.BufferAttribute(sp, 3));
+  const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({
+    size: 0.14, map: dotTex, color: 0xcfd6ff, transparent: true,
+    depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.7,
+  }));
+  scene.add(stars);
+
+  // 리사이즈·마우스 시차·스크롤 연동
+  const fit = () => {
+    const w = innerWidth, h = innerHeight;
+    renderer.setSize(w, h, false);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    camera.aspect = w / h; camera.updateProjectionMatrix();
+  };
+  fit(); addEventListener("resize", fit);
+
+  let mx = 0, my = 0;
+  addEventListener("pointermove", (e) => {
+    mx = (e.clientX / innerWidth - 0.5) * 2;
+    my = (e.clientY / innerHeight - 0.5) * 2;
+  }, { passive: true });
+
+  let scrollT = 0;
+  addEventListener("scroll", () => {
+    scrollT = Math.min(scrollY / innerHeight, 2);
+  }, { passive: true });
+
+  const clock = new THREE.Clock();
+  renderer.setAnimationLoop(() => {
+    const t = clock.getElapsedTime();
+    if (!reduced) {
+      nebula.rotation.y = t * 0.022;
+      stars.rotation.y = -t * 0.004;
+      glow.material.opacity = 0.78 + Math.sin(t * 0.8) * 0.12;
+      glow.scale.setScalar(7 + Math.sin(t * 0.8) * 0.5);
+    }
+    camera.position.x += (mx * 0.7 - camera.position.x) * 0.03;
+    camera.position.y += (0.6 - my * 0.45 - scrollT * 1.6 - camera.position.y) * 0.03;
+    camera.lookAt(0, 0.6 - scrollT * 0.8, -4);
+    canvas.style.opacity = String(Math.max(1 - scrollT * 0.38, 0.35));
+    renderer.render(scene, camera);
+  });
+}
+</script>
 </body>
 </html>
