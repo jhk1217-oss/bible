@@ -1,8 +1,12 @@
 {
-  // Cloudflare Workers — 「매일 한 장의 말씀」 채널 사이트 (정적 에셋 전용)
+  // Cloudflare Workers — 「매일 한 장의 말씀」 채널 사이트
+  // 정적 에셋 + 구글 소유권 확인 파일만 워커가 직접 응답(src/worker.js)
   "name": "bible",
   "compatibility_date": "2026-07-01",
+  "main": "src/worker.js",
   "assets": {
-    "directory": "./public"
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/google8b658b74694c11d8.html"]
   }
 }
