@@ -67,6 +67,9 @@
   .cta:hover { transform:translateY(-2px); box-shadow:0 0 0 1px rgba(227,196,127,.5), 0 16px 52px rgba(227,196,127,.32); }
   .cta svg { width:20px; height:20px; }
   .handle { color:var(--dim); font-size:14px; letter-spacing:.14em; margin-top:16px; }
+  .purpose {
+    margin-top:34px; max-width:640px; color:#8d8778; font-size:13px; line-height:1.8;
+  }
   .scroll-hint {
     position:absolute; bottom:26px; left:50%; transform:translateX(-50%);
     color:#6f6a60; font-size:12px; letter-spacing:.3em;
@@ -123,7 +126,6 @@
   footer a:hover { color:var(--gold); }
   footer .copy { margin-top:12px; }
 
-  .reveal { opacity:0; }
   @media (max-width:720px) { .cards { grid-template-columns:1fr; } section { padding:80px 20px; } }
   @media (prefers-reduced-motion:reduce) {
     .reveal { opacity:1 !important; transform:none !important; }
@@ -151,6 +153,10 @@
       유튜브에서 듣기
     </a>
     <div class="handle reveal" data-hero>@1189jang</div>
+    <p class="purpose reveal" data-hero>
+      매일 한 장의 말씀은 성경 낭독 영상을 자동 제작해 운영자 본인의 유튜브 채널에 게시하는 앱입니다.<br>
+      An app that automatically creates Bible reading videos and publishes them to the operator's own YouTube channel.
+    </p>
     <div class="scroll-hint">SCROLL</div>
   </div>
 
@@ -242,7 +248,7 @@ animate("[data-hero]",
 
 inView("[data-view]", (el) => {
   animate(el,
-    { opacity: [0, 1], transform: ["translateY(34px)", "translateY(0)"] },
+    { transform: ["translateY(26px)", "translateY(0)"] },
     { duration: reduced ? 0 : 0.9, ease: [0.16, 1, 0.3, 1] });
 }, { margin: "3000px 0px -12% 0px" });
 
