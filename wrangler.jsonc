@@ -7,6 +7,6 @@
   "assets": {
     "directory": "./public",
     "binding": "ASSETS",
-    "run_worker_first": ["/google8b658b74694c11d8.html"]
+    "run_worker_first": ["/google8b658b74694c11d8.html", "/google23303cb205b68b12.html"]
   }
 }
