@@ -108,6 +108,13 @@
   .quote cite { display:block; margin-top:20px; color:var(--dim); font-style:normal; letter-spacing:.18em; font-size:14px; }
   .quote .cta { margin-top:46px; }
 
+  /* ── 앱 소개 (OAuth 브랜드 인증용 명시 설명) ── */
+  .about { border-top:1px solid rgba(255,255,255,.06); }
+  .about .sub { max-width:720px; }
+  .about .sub strong { color:var(--fg); }
+  .about .sub a { color:var(--gold); }
+  .about .en { font-size:14px; color:#8d8778; }
+
   footer {
     position:relative; z-index:2; border-top:1px solid rgba(255,255,255,.06);
     padding:36px 24px 44px; text-align:center; font-size:13px; color:#6f6a60;
@@ -183,13 +190,40 @@
       <a class="cta" href="https://www.youtube.com/@1189jang">오늘의 한 장 듣기</a>
     </div>
   </section>
+
+  <section class="about" id="about">
+    <div class="kicker reveal" data-view>ABOUT THIS APP</div>
+    <h2 class="reveal" data-view>「매일 한 장의 말씀」 앱 소개</h2>
+    <p class="sub reveal" data-view>
+      <strong>매일 한 장의 말씀</strong>은 성경 낭독 영상을 자동으로 제작해
+      운영자 본인의 유튜브 채널(@1189jang)에 게시하는 개인 애플리케이션입니다.
+      본문 수집, 장면 이미지 생성, 낭독 음성 합성, 영상 렌더링, 업로드까지의
+      과정을 자동화합니다.
+    </p>
+    <p class="sub reveal" data-view>
+      이 앱은 <strong>YouTube Data API</strong>를 사용하며, 운영자 본인의 Google
+      계정에만 접근해 본인 소유 채널에 영상을 업로드합니다. 시청자를 포함한
+      제3자의 Google 계정 데이터는 일절 수집·이용·공유하지 않습니다. 자세한
+      내용은 <a href="/privacy.html">개인정보처리방침</a>과
+      <a href="/terms.html">이용약관</a>을 참고하세요.
+    </p>
+    <p class="sub reveal en" data-view>
+      "매일 한 장의 말씀" (Daily Bible Chapter) is a personal application that
+      automatically produces Bible reading videos and publishes them to the
+      operator's own YouTube channel (@1189jang). It uses the YouTube Data API
+      to upload videos to the operator's own account only, and does not collect,
+      use, or share any third-party user data. See our
+      <a href="/privacy.html">Privacy Policy</a> and
+      <a href="/terms.html">Terms of Service</a>.
+    </p>
+  </section>
 </main>
 
 <footer>
   <nav>
-    <a href="/privacy.html">개인정보처리방침</a>·<a href="/terms.html">이용약관</a>·<a href="https://www.youtube.com/@1189jang">YouTube</a>
+    <a href="/privacy.html">개인정보처리방침</a>·<a href="/terms.html">이용약관</a>·<a href="#about">앱 소개</a>·<a href="https://www.youtube.com/@1189jang">YouTube</a>
   </nav>
-  <div class="copy">© 2026 매일 한 장의 말씀 (@1189jang)</div>
+  <div class="copy">© 2026 매일 한 장의 말씀 (@1189jang) — 성경 낭독 영상을 본인 채널에 자동 게시하는 앱</div>
 </footer>
 
 <script src="./vendor/motion.js"></script>
